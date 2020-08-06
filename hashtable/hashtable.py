@@ -37,6 +37,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.capacity
 
 
     def get_load_factor(self):
@@ -90,6 +91,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        self.store[index] = value
+
 
 
     def delete(self, key):
@@ -101,6 +105,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        self.store[index] = None
 
 
     def get(self, key):
@@ -112,6 +118,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        return self.store[index]
 
 
     def resize(self, new_capacity):
