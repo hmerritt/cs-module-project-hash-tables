@@ -174,6 +174,10 @@ class HashTable:
                 currNode.next = HashTableEntry(key, value)
                 self.counter += 1
 
+        load_factor = self.get_load_factor()
+        if load_factor > MAX_LOAD_FACTOR:
+            self.resize(self.capacity * RESIZE_FACTOR)
+
 
     def delete(self, key):
         """
@@ -207,6 +211,13 @@ class HashTable:
             else:
                 prevNode.next = currNode.next
                 self.counter -= 1
+
+        load_factor = self.get_load_factor()
+        if load_factor < MIN_LOAD_FACTOR:
+            if self.capacity/RESIZE_FACTOR < MIN_CAPACITY:
+                self.resize(MIN_CAPACITY)
+            else:
+                self.resize(self.capacity // RESIZE_FACTOR)
 
 
     def get(self, key):
@@ -243,6 +254,17 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        old_storage = self.store
+
+        self.capacity = new_capacity
+        self.store = [LinkedList()] * new_capacity
+
+        for item in old_storage:
+            if item:
+                currNode = item
+                while currNode:
+                    self.put(currNode.key, currNode.value)
+                    currNode = currNode.next
 
 
 if __name__ == "__main__":
