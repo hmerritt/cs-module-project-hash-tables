@@ -20,19 +20,31 @@ for index, word in enumerate(words):
 def random_word():
     return random.choice(list(ht))
 
+def random_start_word():
+    word = random_word()
+    while not word[0].isupper() and not (len(word) >= 2 and (word[0] == "\"" or word[1].isupper())):
+        word = random_word()
+    return word
 
 # TODO: construct 5 random sentences
 # Your code here
-def sentence(start, length):
-    words = ht[start]
-    result = start
-    for i in range(0, length):
-        word_new = random.choice(words)
-        result += f" {word_new}"
-        words = ht[word_new]
-    return result
+def sentence(result = "", current_word = "", stop_chars = [".", "!", "?", "\""]):
+    if result == "":
+        start = random_start_word()
+        result = start
+        current_word = start
 
-print(sentence("The", 10))
-print(sentence("\"Do", 10))
-# print(sentence("\"Oh,", 10))
-# print(sentence("\"Do", 10))
+    elif current_word[-1] in stop_chars:
+        return result
+
+    words = ht[current_word]
+    word_new = random.choice(words)
+    result = f"{result} {word_new}"
+    current_word = word_new
+
+    return sentence(result, current_word)
+
+print(sentence())
+print(sentence())
+print(sentence())
+print(sentence())
